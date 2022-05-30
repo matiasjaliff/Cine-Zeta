@@ -3,13 +3,27 @@ const config = require("./config");
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const db = require("./db");
+const models = require("./models");
+const router = require("./routes");
+const usersSeed = require("./db/usersSeed");
+
+const port = 8080;
 
 app.use(morgan("tiny"));
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!!");
 });
 
-app.listen(config.PORT, () => {
-  console.log(`Example app listening on port ${config.PORT}`);
-});
+app.use("/api", router);
+
+db.sync({ force: true })
+  .then(() => models.Users.bulkCreate(usersSeed))
+  .then(() =>
+    app.listen(port, () =>
+      console.log(`App listening on port ${port}`)
+    )
+  );
