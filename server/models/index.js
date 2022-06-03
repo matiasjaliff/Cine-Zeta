@@ -7,7 +7,10 @@ const TmdbTvShows = require("./tmdb-tv-show-model");
 Users.hasMany(FavMovies);
 FavMovies.belongsTo(Users);
 
-TmdbMovies.hasMany(FavMovies);
-FavMovies.belongsTo(TmdbMovies);
+Users.hasMany(FavTvShows);
+FavTvShows.belongsTo(Users);
+
+// TmdbMovies.hasMany(FavMovies);
+// FavMovies.belongsTo(TmdbMovies);
 
 module.exports = { Users, FavMovies, FavTvShows, TmdbMovies, TmdbTvShows };
